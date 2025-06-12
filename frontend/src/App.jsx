@@ -2,10 +2,12 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import Sidebar from './components/Sidebar';
-import Login from './components/Login';
+import Login from './pages/Login';
 import NGEmployeeForm from './pages/NGEmployeeForm';
 import GazettedForm from './pages/GazettedForm';
 import ApplicationStatus from './pages/ApplicationStatus';
+import Signup from './pages/Signup';
+import AdminDashboard from './pages/AdminDashboard';
 
 const App = () => {
   return (
@@ -26,9 +28,11 @@ const App = () => {
         <main className="flex-1 overflow-y-auto bg-gray-100 p-6">
           <Routes>
             <Route path="/" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/apply-ng" element={<NGEmployeeForm />} />
             <Route path="/apply-gaz" element={<GazettedForm />} />
             <Route path="/status" element={<ApplicationStatus />} />
+            <Route path="/admin" element={<AdminDashboard />} />
           </Routes>
         </main>
       </div>
