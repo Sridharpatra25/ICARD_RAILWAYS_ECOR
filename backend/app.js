@@ -10,13 +10,18 @@ const userRoutes = require('./routes/userRoutes');
 
 const app = express();
 
-app.use(cors({
+const corsOptions = {
   origin: [
-    'https://icard-railways-ecor.vercel.app',
-    'http://localhost:5173'
+    'https://icard-railways-ecor-git-main-a-sridhar-patras-projects.vercel.app', // deployed frontend
+    'http://localhost:5173' // local dev
   ],
-  credentials: true
-}));
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+};
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // handle preflight requests
+
 app.use(express.json());
 
 // Routes
