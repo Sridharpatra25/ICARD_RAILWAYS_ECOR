@@ -19,7 +19,8 @@ const Login = () => {
         body: JSON.stringify({ username: userId, password })
       });
       const data = await res.json();
-      if (res.ok && data.role === 'admin') {
+      if (res.ok) {
+        localStorage.setItem('isLoggedIn', 'true');
         navigate('/admin');
       } else {
         setError(data.message || 'Login failed');
@@ -31,7 +32,7 @@ const Login = () => {
 
   return (
     <motion.div className="flex items-center justify-center h-screen bg-gray-100 mt-12 overflow-hidden ">
-      <form className="bg-white shadow-lg rounded-xl px-6 py-6 w-full max-w-sm" onSubmit={handleSubmit}>
+      <form className="bg-blue-100 shadow-lg rounded-xl px-6 py-6 w-full max-w-sm" onSubmit={handleSubmit}>
         <h2 className="text-2xl font-bold text-center text-green-700 mb-6">
           Admin Login
         </h2>

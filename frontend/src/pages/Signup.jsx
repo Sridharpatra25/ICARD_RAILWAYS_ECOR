@@ -38,13 +38,9 @@ const Signup = () => {
       });
       const data = await res.json();
       if (res.ok) {
-        if (data.role === 'admin') {
-          setMessage('Signup successful! Redirecting to admin dashboard...');
-          setTimeout(() => navigate('/admin'), 1500);
-        } else {
-          setMessage('Signup successful! You can now login.');
-          setTimeout(() => navigate('/'), 1500);
-        }
+        localStorage.setItem('isLoggedIn', 'true');
+        setMessage('Signup successful! Redirecting to admin dashboard...');
+        setTimeout(() => navigate('/admin'), 1500);
       } else {
         setError(data.message || 'Signup failed');
       }
@@ -55,7 +51,7 @@ const Signup = () => {
 
   return (
     <motion.div className="flex items-center justify-center h-screen bg-gray-100 mt-12 overflow-hidden ">
-      <form onSubmit={handleSubmit} className="bg-white shadow-lg rounded-xl px-6 py-6 w-full max-w-sm">
+      <form onSubmit={handleSubmit} className="bg-blue-100 shadow-lg rounded-xl px-6 py-6 w-full max-w-sm">
         <h2 className="text-2xl font-bold text-center text-green-700 mb-6">Sign Up</h2>
         <div className="flex flex-col gap-4">
           <input name="email" type="email" value={form.email} onChange={handleChange} placeholder="Email" className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-emerald-500" required />
