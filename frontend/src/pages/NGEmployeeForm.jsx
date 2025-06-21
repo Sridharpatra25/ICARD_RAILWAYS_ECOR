@@ -71,7 +71,7 @@ const handleSubmit = async (e) => {
     // Append family members as a JSON string
     data.append('familyMembers', JSON.stringify(familyMembers));
 
-    const response = await fetch('http://localhost:5000/api/ng/register', {
+    const response = await fetch('https://icard-railways-ecor.onrender.com/api/ng/register', {
       method: 'POST',
       body: data
     });

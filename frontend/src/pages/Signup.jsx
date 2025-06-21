@@ -25,7 +25,7 @@ const Signup = () => {
     setError('');
     try {
       // For now, use userId as username for backend
-      const res = await fetch('http://localhost:5000/api/user/signup', {
+      const res = await fetch('https://icard-railways-ecor.onrender.com/api/user/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

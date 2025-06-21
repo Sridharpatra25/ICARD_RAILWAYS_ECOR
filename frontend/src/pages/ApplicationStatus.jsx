@@ -21,7 +21,7 @@ const ApplicationStatus = () => {
   const handleGazSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/status/gazetted', {
+      const response = await fetch('https://icard-railways-ecor.onrender.com/api/status/gazetted', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(gazStatus),
@@ -40,7 +40,7 @@ const ApplicationStatus = () => {
   const handleNgSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/status/nongazetted', {
+      const response = await fetch('https://icard-railways-ecor.onrender.com/api/status/nongazetted', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(ngStatus),

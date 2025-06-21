@@ -73,7 +73,7 @@ const handleSubmit = async (e) => {
     // Append family members as JSON string
     data.append('familyMembers', JSON.stringify(familyMembers));
 
-    const response = await fetch('http://localhost:5000/api/gazetted/register', {
+    const response = await fetch('https://icard-railways-ecor.onrender.com/api/gazetted/register', {
       method: 'POST',
       body: data
     });

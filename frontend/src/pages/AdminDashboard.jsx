@@ -81,13 +81,13 @@ const AdminDashboard = () => {
       setError('');
       try {
         if (tab === 'gazetted') {
-          const res = await fetch(`http://localhost:5000/api/gazetted/all?page=${gzPage}&limit=${limit}`);
+          const res = await fetch(`https://icard-railways-ecor.onrender.com/api/gazetted/all?page=${gzPage}&limit=${limit}`);
           const data = await res.json();
           setGazetted(data.data || []);
           setGzPages(data.pages || 1);
           setGzTotal(data.total || 0);
         } else {
-          const res = await fetch(`http://localhost:5000/api/ng/all?page=${ngPage}&limit=${limit}`);
+          const res = await fetch(`https://icard-railways-ecor.onrender.com/api/ng/all?page=${ngPage}&limit=${limit}`);
           const data = await res.json();
           setNonGazetted(data.data || []);
           setNgPages(data.pages || 1);
@@ -105,8 +105,8 @@ const AdminDashboard = () => {
     setStatusUpdatingId(applicationId);
     try {
       const url = type === 'gazetted'
-        ? 'http://localhost:5000/api/gazetted/update-status'
-        : 'http://localhost:5000/api/ng/update-status';
+        ? 'https://icard-railways-ecor.onrender.com/api/gazetted/update-status'
+        : 'https://icard-railways-ecor.onrender.com/api/ng/update-status';
       const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -231,8 +231,8 @@ const AdminDashboard = () => {
               <tr key={app.applicationId} className="border-t hover:bg-blue-50 transition print:border-none">
                 {columns.map(col => {
                   if (col.key === 'slno') return <td key={col.key}>{idx + 1}</td>;
-                  if (col.key === 'photo') return <td key={col.key}><img src={`http://localhost:5000/api/${type === 'gazetted' ? 'gazetted' : 'ng'}/photo/${app._id}`} alt="Photo" className="w-12 h-16 object-cover rounded border" onError={e => { e.target.src = PLACEHOLDER_IMG; }} /></td>;
-                  if (col.key === 'signature') return <td key={col.key}><img src={`http://localhost:5000/api/${type === 'gazetted' ? 'gazetted' : 'ng'}/signature/${app._id}`} alt="Signature" className="w-16 h-8 object-contain border" onError={e => { e.target.src = PLACEHOLDER_IMG; }} /></td>;
+                  if (col.key === 'photo') return <td key={col.key}><img src={`https://icard-railways-ecor.onrender.com/api/${type === 'gazetted' ? 'gazetted' : 'ng'}/photo/${app._id}`} alt="Photo" className="w-12 h-16 object-cover rounded border" onError={e => { e.target.src = PLACEHOLDER_IMG; }} /></td>;
+                  if (col.key === 'signature') return <td key={col.key}><img src={`https://icard-railways-ecor.onrender.com/api/${type === 'gazetted' ? 'gazetted' : 'ng'}/signature/${app._id}`} alt="Signature" className="w-16 h-8 object-contain border" onError={e => { e.target.src = PLACEHOLDER_IMG; }} /></td>;
                   if (col.key === 'familyMembers') {
                     if (Array.isArray(app.familyMembers) && app.familyMembers.length > 0) {
                       return <td key={col.key}><ul className="text-xs">{app.familyMembers.map((fm, i) => <li key={i}>{Object.values(fm).join(', ')}</li>)}</ul></td>;
@@ -293,8 +293,8 @@ const AdminDashboard = () => {
     if (!window.confirm('Are you sure you want to delete this application?')) return;
     try {
       const url = type === 'gazetted'
-        ? `http://localhost:5000/api/gazetted/${applicationId}`
-        : `http://localhost:5000/api/ng/${applicationId}`;
+        ? `https://icard-railways-ecor.onrender.com/api/gazetted/${applicationId}`
+        : `https://icard-railways-ecor.onrender.com/api/ng/${applicationId}`;
       const res = await fetch(url, { method: 'DELETE' });
       if (!res.ok) throw new Error('Failed to delete application');
       if (type === 'gazetted') {
@@ -366,7 +366,7 @@ const AdminDashboard = () => {
               <div className="flex flex-row w-full items-center mb-2">
                 {/* Photo */}
                 <div className="flex flex-col items-center mr-2">
-                  <img src={`http://localhost:5000/api/${tab === 'gazetted' ? 'gazetted' : 'ng'}/photo/${cardData._id}`} alt="Photo" className="w-[90px] h-[110px] object-cover border border-gray-400 bg-gray-100" onError={e => { e.target.src = PLACEHOLDER_IMG; }} />
+                  <img src={`https://icard-railways-ecor.onrender.com/api/${tab === 'gazetted' ? 'gazetted' : 'ng'}/photo/${cardData._id}`} alt="Photo" className="w-[90px] h-[110px] object-cover border border-gray-400 bg-gray-100" onError={e => { e.target.src = PLACEHOLDER_IMG; }} />
                 </div>
                 {/* Details Table */}
                 <div className="flex-1 flex flex-col justify-center px-2">
@@ -383,7 +383,7 @@ const AdminDashboard = () => {
                 </div>
                 {/* Signature */}
                 <div className="flex flex-col items-center ml-2">
-                  <img src={`http://localhost:5000/api/${tab === 'gazetted' ? 'gazetted' : 'ng'}/signature/${cardData._id}`} alt="Signature" className="w-[90px] h-[40px] object-contain border border-gray-400 bg-gray-100" onError={e => { e.target.src = PLACEHOLDER_IMG; }} />
+                  <img src={`https://icard-railways-ecor.onrender.com/api/${tab === 'gazetted' ? 'gazetted' : 'ng'}/signature/${cardData._id}`} alt="Signature" className="w-[90px] h-[40px] object-contain border border-gray-400 bg-gray-100" onError={e => { e.target.src = PLACEHOLDER_IMG; }} />
                   <span className="text-[10px] mt-1 text-gray-600">प्रमाणित प्राधिकारी का हस्ताक्षर<br/>Signature of Issuing Authority</span>
                 </div>
               </div>
