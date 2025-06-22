@@ -6,7 +6,7 @@ exports.getGazStatus = async (req, res) => {
   try {
     const record = await Gazetted.findOne({ applicationId, dob });
     if (!record) return res.status(404).json({ message: 'Application not found' });
-    res.json(record);
+    res.json({ status: record.status });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }
@@ -17,7 +17,7 @@ exports.getNgStatus = async (req, res) => {
   try {
     const record = await NonGazetted.findOne({ applicationId, dob });
     if (!record) return res.status(404).json({ message: 'Application not found' });
-    res.json(record);
+    res.json({ status: record.status });
   } catch (err) {
     res.status(500).json({ message: 'Server error' });
   }

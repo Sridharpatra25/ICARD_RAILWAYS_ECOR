@@ -95,7 +95,7 @@ const ApplicationStatus = () => {
           {gazResult && (
             <div className={`text-sm ${gazResult.type === 'success' ? 'text-green-700' : 'text-red-600'}`}>
               {gazResult.type === 'success' ? (
-                <pre>{JSON.stringify(gazResult.data, null, 2)}</pre>
+                <pre>{JSON.stringify((({ photo, signature, ...rest }) => rest)(gazResult.data), null, 2)}</pre>
               ) : (
                 gazResult.message
               )}
@@ -132,7 +132,7 @@ const ApplicationStatus = () => {
           {ngResult && (
             <div className={`text-sm ${ngResult.type === 'success' ? 'text-green-700' : 'text-red-600'}`}>
               {ngResult.type === 'success' ? (
-                <pre>{JSON.stringify(ngResult.data, null, 2)}</pre>
+                <pre>{JSON.stringify((({ photo, signature, ...rest }) => rest)(ngResult.data), null, 2)}</pre>
               ) : (
                 ngResult.message
               )}
@@ -150,16 +150,26 @@ const ApplicationStatus = () => {
               <span className="text-lg font-semibold text-gray-700">Application ID:</span>
               <div className="flex items-center gap-2 mt-1">
                 <span className="font-mono text-xl text-green-700 bg-green-50 px-3 py-1 rounded-lg border border-green-200 select-all">{modalData.applicationId}</span>
-                <button
-                  className="ml-2 px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition"
-                  onClick={() => {navigator.clipboard.writeText(modalData.applicationId)}}
-                  title="Copy Application ID"
-                >Copy</button>
+                <button className="ml-2 px-2 py-1 text-xs bg-blue-600 text-white rounded hover:bg-blue-700 transition" onClick={() => {navigator.clipboard.writeText(modalData.applicationId)}} title="Copy Application ID">Copy</button>
               </div>
             </div>
             <h3 className="font-semibold mt-4 mb-2 text-blue-700 text-center">Status: <span className="text-lg font-bold">{modalData.status || 'N/A'}</span></h3>
             <div className="bg-gray-100 rounded-lg p-4 max-h-64 overflow-y-auto border border-gray-200">
-              <pre className="whitespace-pre-wrap break-words text-xs text-gray-800 font-mono">{JSON.stringify(modalData, null, 2)}</pre>
+              {/* Show image if available */}
+              {modalData._id && (
+                <div className="mb-2 flex gap-4 items-center">
+                  {modalData.photo && (
+                    <img src={`https://icard-railways-ecor.onrender.com/api/${modalData.employeeName ? 'gazetted' : 'ng'}/photo/${modalData._id}`} alt="Photo" style={{ width: 80, height: 100, objectFit: 'cover', borderRadius: 8, border: '1px solid #ccc' }} />
+                  )}
+                  {modalData.signature && (
+                    <img src={`https://icard-railways-ecor.onrender.com/api/${modalData.employeeName ? 'gazetted' : 'ng'}/signature/${modalData._id}`} alt="Signature" style={{ width: 100, height: 40, objectFit: 'contain', borderRadius: 8, border: '1px solid #ccc' }} />
+                  )}
+                </div>
+              )}
+              {/* Show rest of the fields except photo/signature as JSON */}
+              <pre className="whitespace-pre-wrap break-words text-xs text-gray-800 font-mono">
+                {JSON.stringify((({ photo, signature, ...rest }) => rest)(modalData), null, 2)}
+              </pre>
             </div>
             <button className="mt-6 w-full btn bg-blue-600 hover:bg-blue-700 text-white shadow-lg text-lg" onClick={() => setShowModal(false)}>Close</button>
           </div>

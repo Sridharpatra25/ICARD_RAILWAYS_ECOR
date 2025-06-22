@@ -74,6 +74,7 @@ const AdminDashboard = () => {
   const [ngTotal, setNgTotal] = useState(0);
   const limit = 20;
   const tableRef = useRef();
+  const [showSlowLoading, setShowSlowLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -100,6 +101,16 @@ const AdminDashboard = () => {
     };
     fetchData();
   }, [tab, gzPage, ngPage]);
+
+  useEffect(() => {
+    let slowTimeout;
+    if (loading) {
+      slowTimeout = setTimeout(() => setShowSlowLoading(true), 3000);
+    } else {
+      setShowSlowLoading(false);
+    }
+    return () => clearTimeout(slowTimeout);
+  }, [loading]);
 
   const handleStatusChange = async (type, applicationId, newStatus) => {
     setStatusUpdatingId(applicationId);
@@ -322,7 +333,10 @@ const AdminDashboard = () => {
           >Non-Gazetted</button>
         </div>
         {loading ? (
-          <div className="text-center py-10 text-lg text-gray-500">Loading applications...</div>
+          <div className="text-center py-10 text-lg text-gray-500">
+            Loading applications...<br />
+            {showSlowLoading && <span className="text-orange-600">Server is waking up or slow, please wait...</span>}
+          </div>
         ) : error ? (
           <div className="text-center py-10 text-red-600">{error}</div>
         ) : (
@@ -338,7 +352,25 @@ const AdminDashboard = () => {
             <button className="absolute top-3 right-3 text-gray-400 hover:text-red-500 text-2xl font-bold" onClick={closeModal}>&times;</button>
             <h2 className="text-2xl font-extrabold text-blue-700 mb-2 text-center tracking-wide">Application Details</h2>
             <div className="bg-gray-100 rounded-lg p-4 max-h-96 overflow-y-auto border border-gray-200">
-              <pre className="whitespace-pre-wrap break-words text-xs text-gray-800 font-mono">{JSON.stringify(modalData, null, 2)}</pre>
+              {/* Show main fields */}
+              <div className="mb-2"><b>Status:</b> {modalData.status}</div>
+              <div className="mb-2"><b>Name:</b> {modalData.employeeName || modalData.name}</div>
+              <div className="mb-2"><b>Application ID:</b> {modalData.applicationId}</div>
+              {/* Show image if available */}
+              {modalData._id && (
+                <div className="mb-2 flex gap-4 items-center">
+                  {modalData.photo && (
+                    <img src={`https://icard-railways-ecor.onrender.com/api/${tab === 'gazetted' ? 'gazetted' : 'ng'}/photo/${modalData._id}`} alt="Photo" style={{ width: 80, height: 100, objectFit: 'cover', borderRadius: 8, border: '1px solid #ccc' }} />
+                  )}
+                  {modalData.signature && (
+                    <img src={`https://icard-railways-ecor.onrender.com/api/${tab === 'gazetted' ? 'gazetted' : 'ng'}/signature/${modalData._id}`} alt="Signature" style={{ width: 100, height: 40, objectFit: 'contain', borderRadius: 8, border: '1px solid #ccc' }} />
+                  )}
+                </div>
+              )}
+              {/* Show rest of the fields except photo/signature as JSON */}
+              <pre className="whitespace-pre-wrap break-words text-xs text-gray-800 font-mono">
+                {JSON.stringify((({ photo, signature, ...rest }) => rest)(modalData), null, 2)}
+              </pre>
             </div>
             <button className="mt-6 w-full btn bg-blue-600 hover:bg-blue-700 text-white shadow-lg text-lg" onClick={closeModal}>Close</button>
           </div>
